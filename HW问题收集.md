@@ -36,14 +36,14 @@
       sameArea={$settings.highlightCells && !isSelected($cursor, x, y) && isSameArea($cursor, x, y)}
       ```
 
-   2. **尝试解决手段**：我已经知道它大概是在做“高亮和当前选中格同一行 / 同一列 / 同一宫”的效果，但是我对它在整个组件树中的传递意义、它和 `sameNumber` / `conflictingNumber` 的边界区分还没有特别透。问过 CA，也读过 `Board/index.svelte`，但目前还是停留在“知道效果，不算完全吃透”的状态。
+   2. **尝试解决手段**：我已经知道它大概是在做“高亮和当前选中格同一行 / 同一列 / 同一宫”的效果，但是我对它在整个组件树中的传递意义、它和 `sameNumber` / `conflictingNumber` 的边界区分还没有理解。问CA，并读过 `Board/index.svelte`后还是停留在只知道效果，的状态。
 
-2. 现在这个项目的构建链为什么会在 `npm run build` 上炸掉？
+2. 现在这个项目的构建链为什么会在 `npm run build` 上报错？
 
    1. **上下文**：`rollup.config.js`、`svelte-preprocess`、`postcss` 这一整套老依赖链。
-   2. **尝试解决手段**：我已经确认这不是我改的 domain / adapter 逻辑直接导致的，而更像 starter repo 原本的构建环境兼容问题。但我现在还不能完全独立讲清楚：为什么这里会报 `node.getIterator is not a function`，以及这个错误在 Svelte 预处理链里到底是怎么传出来的。
+   2. **尝试解决手段**：我确认这不是我改的 domain / adapter 逻辑导致的，而更像 starter repo 原本的构建环境兼容问题。但我现在还不能讲清楚为什么这里会报 `node.getIterator is not a function`，以及这个错误在 Svelte 预处理链里到底是怎么传出来的。
 
 3. `invalidCells` 这种状态到底应该留在 store 层，还是应该继续往 domain 层里收？
 
    1. **上下文**：`src/node_modules/@sudoku/stores/grid.js`
-   2. **尝试解决手段**：我知道 `invalidCells` 是从当前 `$userGrid` 推导出来的派生状态，也知道它现在放在 store 层是为了方便给 UI 直接消费。但我还没有完全想清楚：从更纯粹的 OO 设计角度看，这种“冲突格信息”到底算不算领域知识，是否应该由 `Sudoku` 直接提供，而不是留在 adapter/store 这边计算。
+   2. **尝试解决手段**：我知道 `invalidCells` 是从当前 `$userGrid` 推导出来的派生状态，也知道它现在放在 store 层是为了方便给 UI 直接消费。但我还没有完全想清楚：从更纯粹的 OO 设计角度看，这种冲突格信息到底算不算领域知识，是否应该由 `Sudoku` 直接提供，而不是留在 adapter/store 这边计算。
